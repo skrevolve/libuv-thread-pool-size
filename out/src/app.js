@@ -31,10 +31,9 @@ class App {
         this.initControllers(controllers);
     }
     initMiddlewares() {
-        this.app.set('trust proxy', '127.0.0.1');
         this.app.use((0, compression_1.default)());
         this.app.use((0, cors_1.default)());
-        this.app.use((0, connect_timeout_1.default)("120s"));
+        this.app.use((0, connect_timeout_1.default)("30s"));
         this.app.use(body_parser_1.default.json());
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
         this.app.use((0, morgan_1.default)('[:method][:url] :remote-addr "HTTP/:http-version" :status :res[content-length] ":user-agent" :response-time ms', { stream: winston_1.stream }));
@@ -66,7 +65,7 @@ class App {
         });
         process.on('SIGINT', () => {
             this.isDisableKeepAlive = true;
-            app.close(function () {
+            app.close(() => {
                 process.exit(0);
             });
         });

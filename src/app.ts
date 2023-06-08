@@ -24,7 +24,7 @@ export class App {
     private initMiddlewares() {
         this.app.use(compression())
         this.app.use(cors())
-        this.app.use(timeout("30s"))
+        this.app.use(timeout("120s"))
         this.app.use(bodyParser.json())
         this.app.use(bodyParser.urlencoded({ extended: true }))
         this.app.use(morgan(
