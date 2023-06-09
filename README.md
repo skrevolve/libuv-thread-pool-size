@@ -4,7 +4,8 @@ Nodejs, libuv의 스레드 풀 크기로 인해 애플리케이션에 병목 현
 **libuv에 존재하는 I/O가 많은 애플리케이션의 경우 libuv 스레드 풀 크기는 심각한 병목 현상이 될 수 있으며**</br>
 **총 처리량을 늘리는데 가장 큰 영향을 미치는 요인중 하나가 될 수 있습니다**
 </br></br>
-# libuv 란?
+
+## libuv 란?
 
 ![image](https://github.com/skrevolve/libuv-thread-pool-size/assets/41939976/9e54dc13-c90e-407d-a7de-6f913405c339)</br>
 libuv는 비동기 I/O를 위한 다중 플랫폼 라이브러리입니다
@@ -15,7 +16,7 @@ libuv는 비동기 I/O를 위한 다중 플랫폼 라이브러리입니다
 </br>
 </br>
 
-# 반드시 알아야 할 사항
+## 반드시 알아야 할 사항
 
 - Node.js의 I/O 방법 중 일부는 libuv에 의존합니다
   가능한 경우 Node.js는 이미 비동기/비차단 API를 사용합니다
@@ -24,36 +25,38 @@ libuv는 비동기 I/O를 위한 다중 플랫폼 라이브러리입니다
 
 ## 무엇이 문제일까
 
-# Run Server
+- asdf
+
+## Run Server
 
 You can change **UV_THREADPOOL_SIZE** option in **package.json**
 
-## Install & Build
+### Install & Build
 
 ```sh
 npm install
 npm run build
 ```
 
-## Node
+### Node
 
 ```sh
 npm run start:dev
 ```
 
-## PM2 fork mode
+### PM2 fork mode
 
 ```sh
 npm run start:fork
 ```
 
-## PM2 cluster mode
+### PM2 cluster mode
 
 ```sh
 npm run start:cluster
 ```
 
-# Running Test
+## Running Test
 
 ```sh
 # if you need change chown
@@ -66,9 +69,12 @@ chmod +x curl.sh
 ./curl.sh -c 3 // run test case3
 ```
 
-# Running test result in pm2 fork mode
+## Running test result in pm2 fork mode
 
-## case 1
+### case 1
+
+- parallels : 1
+- curl request : 15
 
 | **UV_THREADPOOL_SIZE** | **parallels** | **curl request** | **I/O operations** | **min(sec)** | **max(sec)** | **average(sec)** |
 |------------------------|---------------|------------------|--------------------|--------------|--------------|------------------|
@@ -83,7 +89,10 @@ chmod +x curl.sh
 | 512                    | 1             | 15               | 10                 | 6.381        | 10.640       | 9.614            |
 | 1024                   | 1             | 15               | 10                 | 4.426        | 10.657       | 9.393            |
 
-## case 2
+### case 2
+
+- parallels : 15
+- curl request : 1
 
 | **UV_THREADPOOL_SIZE** | **parallels** | **curl request** | **I/O operations** | **min(sec)** | **max(sec)** | **average(sec)** |
 |------------------------|---------------|------------------|--------------------|--------------|--------------|------------------|
@@ -98,7 +107,10 @@ chmod +x curl.sh
 | 512                    | 15            | 1                | 10                 | 7.130        | 10.822       | 10.306           |
 | 1024                   | 15            | 1                | 10                 | 4.930        | 11.182       | 10.378           |
 
-> case3 다시
+### case 3
+
+- parallels : 15
+- curl request : 5
 
 | **UV_THREADPOOL_SIZE** | **parallels** | **curl request** | **I/O operations** | **min(sec)** | **max(sec)** | **average(sec)** |
 |------------------------|---------------|------------------|--------------------|--------------|--------------|------------------|
