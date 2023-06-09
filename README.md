@@ -70,12 +70,12 @@ chmod +x curl.sh
 # run test case 2
 ./curl.sh -c 2
 # run test case 3
-./curl.sh -c 3 // run test case3
+./curl.sh -c 3
 ```
 
 ## Running test result in pm2 fork mode
 
-### case 1
+### test case 1
 
 - parallels : 1
 - curl request : 15
@@ -93,7 +93,7 @@ chmod +x curl.sh
 | 512                    | 1             | 15               | 10                 | 6.381        | 10.640       | 9.614            |
 | 1024                   | 1             | 15               | 10                 | 4.426        | 10.657       | 9.393            |
 
-### case 2
+### test case 2
 
 - parallels : 15
 - curl request : 1
@@ -111,7 +111,7 @@ chmod +x curl.sh
 | 512                    | 15            | 1                | 10                 | 7.130        | 10.822       | 10.306           |
 | 1024                   | 15            | 1                | 10                 | 4.930        | 11.182       | 10.378           |
 
-### case 3
+### test case 3
 
 - parallels : 15
 - curl request : 5
