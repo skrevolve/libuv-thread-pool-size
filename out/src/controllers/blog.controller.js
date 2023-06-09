@@ -47,7 +47,7 @@ class BlogController extends controllerAbstract_1.ControllerAbstract {
                         winston_1.logger.info(time);
                     });
                 }
-                return res.status(200).send("done");
+                return res.status(200).send("server: ok");
             }
             catch (e) {
                 return res.status(500).send();

@@ -22,7 +22,7 @@ export class BlogController extends ControllerAbstract {
                 })
             }
 
-            return res.status(200).send("done")
+            return res.status(200).send("server: ok")
 
         } catch(e) {
 

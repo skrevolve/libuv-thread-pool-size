@@ -1,5 +1,4 @@
 #! /bin/bash
-
 set -- $(getopt c "$@")
 
 case $1 in
@@ -9,7 +8,7 @@ case $1 in
                 echo you have to choice below
             else
                 echo $3 is wrong value
-                echo "you have to choice below by option -c"
+                echo -e "you have to choice below by option -c"
             fi
             echo "case1) ./curl.sh -c 1"
             echo "case2) ./curl.sh -c 2"
@@ -29,75 +28,57 @@ esac
 range=0
 workers=0
 url=http://localhost:8080/test
-testurl=https://jsonplaceholder.typicode.com/todos/1
 
-function curl_process() {
-    echo -e "================== worker $1 ==================\r\n"
+cat << "EOF"
+     _______ _     _  ______ _______ _______ ______        _____   _____   _____              _______ _______ _______ _______
+        |    |_____| |_____/ |______ |_____| |     \      |_____] |     | |     | |              |    |______ |______    |
+        |    |     | |    \_ |______ |     | |_____/      |       |_____| |_____| |_____         |    |______ ______|    |
+EOF
+
+curl_process() {
+    echo -e "------------------ worker $1 ------------------"
     for ((i=1; i <= $range; i++)); do
-        echo -e "[$i] done..\r\n" # curl -w '\n' -X GET $url
+        OUTPUT=$(curl -s -w '\n' -X GET $url) # seq 1 $range | xargs -I -P1 curl -w '\n' -X GET $url
+        if [ "$OUTPUT" == "server: ok" ]; then
+            echo [req::$i] "$OUTPUT"
+        fi
     done
 }
 
-function worker_process() {
-
-    echo worker process workers $workers
-
-    # for ((i=1; i <= $workers; i++)); do
-    #     curl_process $i # > ./logs/log_worker${i}.txt &
-    # done
-
+worker_process() {
+    for ((i=1; i <= $workers; i++)); do
+        curl_process $i > ./logs/log_worker${i}.txt &
+    done
     wait
 
-    # for i in $workers
-    #     do
-    #         cat ./logs/log_worker${i}.txt &
-    #     done
-
-    # wait
-
-    echo -e "==============================================\r\n"
-    echo -e "All background process are done\r\n"
+    for ((i=1; i <= $workers; i++)); do
+        cat ./logs/log_worker${i}.txt &
+    done
+    wait
 }
 
-function getParams() {
-    case_type="$1"
-    case $case_type in
-        1)
-            range=15
-            workers=1
-            ;;
-        2)
-            range=1
-            workers=15
-            ;;
-        3)
-            range=5
-            workers=15
-            ;;
-        *)
-            exit0
-            ;;
+getParams() {
+    case "$1" in
+        1) range=15 workers=1;;
+        2) range=1 workers=15;;
+        3) range=5 workers=15;;
+        *) exit0;;
     esac
+    echo -e "\r\n"
+    echo -e "           ::: TEST CASE "$1" :::\r\n"
+    echo -e "         url : $url"
+    echo -e "     request : $range"
+    echo -e "   parallels : $workers\r\n"
 }
 
-function init() {
+init() {
     case_type=$1
     getParams $case_type
     worker_process
+    echo -e "----------------------------------------------\r\n"
+    echo -e "All background process are done\r\n"
 }
 
 init $3
-
-
-
-
-# Case1
-# seq 1 15 | xargs -I -P1 curl -X GET http://localhost:8080/
-
-# Case2
-# seq 1 15 | curl -X GET http://localhost:8080/
-
-# Case3
-# seq 1 5 | xargs -n1 -I -P15 curl -X GET "http://localhost:8080/" \ << (printf '%s\n' {1..5})
 
 exit 0
