@@ -35,9 +35,9 @@ const winston_1 = require("../../utils/winston");
 class BlogController extends controllerAbstract_1.ControllerAbstract {
     constructor() {
         super();
-        this.router.get("/", this.test.bind(this));
+        this.router.get("/test", this.doAsyncIO.bind(this));
     }
-    test(req, res) {
+    doAsyncIO(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const start = Date.now();
@@ -47,7 +47,7 @@ class BlogController extends controllerAbstract_1.ControllerAbstract {
                         winston_1.logger.info(time);
                     });
                 }
-                return res.status(200).send();
+                return res.status(200).send("done");
             }
             catch (e) {
                 return res.status(500).send();

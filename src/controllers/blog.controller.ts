@@ -7,10 +7,10 @@ export class BlogController extends ControllerAbstract {
 
     constructor() {
         super()
-        this.router.get("/", this.test.bind(this))
+        this.router.get("/test", this.doAsyncIO.bind(this))
     }
 
-    private async test(req: Request, res: Response) {
+    private async doAsyncIO(req: Request, res: Response) {
         try {
 
             const start = Date.now()
@@ -22,7 +22,7 @@ export class BlogController extends ControllerAbstract {
                 })
             }
 
-            return res.status(200).send()
+            return res.status(200).send("done")
 
         } catch(e) {
 
