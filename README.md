@@ -1,8 +1,7 @@
 # libuv-thread-pool-size test
 
-Nodejs, libuv의 스레드 풀 크기로 인해 애플리케이션에 병목 현상이 발생하는 방법과 이를 수정하는 방법입니다</br>
-**libuv에 존재하는 I/O가 많은 애플리케이션의 경우 libuv 스레드 풀 크기는 심각한 병목 현상이 될 수 있으며**</br>
-**총 처리량을 늘리는데 가장 큰 영향을 미치는 요인중 하나가 될 수 있습니다**
+Nodejs libuv의 스레드 풀 크기로 인해 애플리케이션에 병목 현상이 발생하는 방법과 이를 수정하는 방법입니다.</br>
+**libuv에 존재하는 I/O가 많은 애플리케이션의 경우 libuv 스레드 풀 크기는 심각한 병목 현상이 될 수 있으며 총 처리량을 늘리는데 가장 큰 영향을 미치는 요인중 하나가 될 수 있습니다.**
 
 ## libuv 란?
 
@@ -14,16 +13,17 @@ libuv는 비동기 I/O를 위한 다중 플랫폼 라이브러리입니다
 
 ## 반드시 알아야 할 사항
 
-- Node.js의 I/O 방법 중 일부는 libuv에 의존합니다</br>
-  가능한 경우 Node.js는 이미 비동기/비차단 API를 사용합니다</br>
+- Node.js의 I/O 방법 중 일부는 libuv에 의존합니다.</br>
+  가능한 경우 Node.js는 이미 비동기/비차단 API를 사용합니다.</br>
   다른 경우 libuv는 스레드 풀을 사용하여 동기화/차단 I/O를 비동기/비차단으로 전환합니다</br>
 - libuv의 스레드 풀 크기는 기본적으로 4 입니다
 
 ## 무엇이 문제일까
 
-libuv의 기본 스레드 풀 크기는 4</br>
-libv에 의존하는 4개 이상의 동시 I/O작업을 수행하면 각각의 추가 작업이 대기열에서 대기해야 하므로 libuv의 작은 스레드 풀 크기가 병목 현상을 발생시킵니다</br>
-libuv의 스레드 풀을 사용하는 일부 I/O 작업:</br>
+libuv의 기본 스레드 풀 크기는 4입니다.</br>
+libv에 의존하는 4개 이상의 동시 I/O작업을 수행하면 각각의 추가 작업이 대기열에서 대기해야 하므로 libuv의 작은 스레드 풀 크기가 병목 현상을 발생시킵니다.</br>
+
+다음은 libuv의 스레드 풀을 사용하는 일부 I/O 작업입니다.
 
 - 모든 파일 시스템 작업
 - DNS 확인
@@ -31,11 +31,11 @@ libuv의 스레드 풀을 사용하는 일부 I/O 작업:</br>
 
 ## 해결 방법
 
-Node.js 를 시작하기 전에 I/O호출을 수행하기 전에 UV_THREADPOOL_SIZE 변수 크기를 늘려 변경 해야 합니다</br>
-libuv는 스레드 풀에 의존하는 I/O 메서드를 처음 호출할 때 스레드 풀을 인스턴스화 합니다</br>
-일단 인스턴스화되면 스레드 풀 크기(UV_THREADPOOL_SIZE)에 대한 변경 사항은 적용되지 않습니다</br>
-Node.js를 시작하기 전에 UV_THREADPOOL_SIZE를 변경하는 것이 좋습니다</br>
-Node.js를 시작하기 전에 환경 변수를 설정하면 의도가 더 명확해지고 무언가 잘못된 가능성이 줄어듭니다(포함된 라이브러리가 부작용으로 I/O를 호출함)</br>
+Node.js 를 시작하기 전에 I/O호출을 수행하기 전에 UV_THREADPOOL_SIZE 변수 크기를 늘려 변경 해야 합니다.</br>
+libuv는 스레드 풀에 의존하는 I/O 메서드를 처음 호출할 때 스레드 풀을 인스턴스화 합니다.</br>
+일단 인스턴스화되면 스레드 풀 크기(UV_THREADPOOL_SIZE)에 대한 변경 사항은 적용되지 않습니다.</br>
+Node.js를 시작하기 전에 UV_THREADPOOL_SIZE를 변경하는 것이 좋습니다.</br>
+Node.js를 시작하기 전에 환경 변수를 설정하면 의도가 더 명확해지고 무언가 잘못된 가능성이 줄어듭니다.(포함된 라이브러리가 부작용으로 I/O를 호출함)</br>
 
 ### Via Bash
 
@@ -58,9 +58,9 @@ process.env.UV_THREADPOOL_SIZE=64;
 
 ## 얼마나 높게 설정해야 할까?
 
-설정하는 값은 경우에 따라 다릅니다</br>
-cpu 코어 수로 예시로한 자료들이 많은데 libuv 측에서는 상관이 없다고 합니다</br>
-관련 링크: [Change default thread pool size from fixed 4 to number of logical cores #1578](https://github.com/joyent/libuv/issues/1578)
+설정하는 값은 경우에 따라 다릅니다.</br>
+cpu 코어 수로 예시로한 자료들이 많은데 libuv 측에서는 상관이 없다고 합니다.</br>
+-> [Change default thread pool size from fixed 4 to number of logical cores #1578](https://github.com/joyent/libuv/issues/1578)
 
 - 스레드 풀 크기는 최대 동시 I/O 작업의 정확한 양입니다
 - 너무 높게 설정하면 너무 낮게 설정하는 것보다 처리량에 미치는 영향이 적습니다
@@ -173,6 +173,7 @@ chmod +x curl.sh
 | 512                    | 15            | 5                | 10                 | 0.000        | 0.000        | 0.000            |
 | 1024                   | 15            | 5                | 10                 | 0.000        | 0.000        | 0.000            |
 
+</br>
 
 ## 참고자료
 
@@ -180,4 +181,4 @@ chmod +x curl.sh
 - [libuv API: 스레드 풀 작업 스케줄링](https://docs.libuv.org/en/v1.x/threadpool.html)
 - [Node.js의 스레드 문제](https://kariera.future-processing.pl/blog/on-problems-with-threads-in-node-js/)
 - [StackOverflow: "UV_THREADPOOL_SIZE 환경 변수를 사용해 본 사람이 있습니까?"](https://stackoverflow.com/questions/17554688/has-anyone-tried-using-the-uv-threadpool-size-environment-variable)
-- []()
+- [Change default thread pool size from fixed 4 to number of logical cores](https://github.com/joyent/libuv/issues/1578)
