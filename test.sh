@@ -1,24 +1,28 @@
-#!/bin/bash
-set -- $(getopt ab:cd "$@")
-while [ -n "$1" ]
-do
-        case "$1" in
-                -a) echo "Found the -a option";;
-                -b) param=$2
-                        echo "Found the -b option, with parameter value $param"
-                        shift;;
-                -c) echo "Found the -c option";;
-                -d) echo "Found the -d option";;
-                --) shift
-                        break;;
-                *) echo "$1 is not an option";;
-        esac
-        shift
-done
-
-cnt=$#
-for (( i=1; i<=cnt; i++))
-do
-        echo "parameter #$i: $1"
-        shift
-done
+@echo off
+::: Prepare le processeur de commande
+SETLOCAL ENABLEEXTENSIONS
+SETLOCAL ENABLEDELAYEDEXPANSION
+echo              _ _,---._
+echo           ,-','       `-.___
+echo          /-;'               `._
+echo         /\/          ._   _,'o \
+echo        ( /\       _,--'\,','"`. )
+echo         |\      ,'o     \'    //\
+echo         |      \        /   ,--'""`-.
+echo         :       \_    _/ ,-'         `-._
+echo          \        `--'  /                )
+echo           `.  \`._    ,'     ________,','
+echo             .--`     ,'  ,--` __\___,;'
+echo              \`.,-- ,' ,`_)--'  /`.,'
+echo               \( ;  | | )      (`-/
+echo                 `--'| |)       |-/
+echo                   | | |        | |
+echo                   | | |,.,-.   | |_
+echo                   | `./ /   )---`  )
+echo                  _|  /    ,',   ,-'
+echo                 ,'|_(    /-<._,' |--,
+echo                 |    `--'---.     \/ \
+echo                 |          / \    /\  \
+echo               ,-^---._     |  \  /  \  \
+echo            ,-'        \----'   \/    \--`.
+echo           /            \              \   \

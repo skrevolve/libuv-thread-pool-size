@@ -25,20 +25,42 @@ case $1 in
         ;;
 esac
 
+case_type="$3"
 range=0
 workers=0
 url=http://localhost:8080/test
+Green="\033[0;32m"
+Reset="\033[0m"
 
-cat << "EOF"
-_______ _     _  ______ _______ _______ ______        _____   _____   _____              _______ _______ _______ _______
-   |    |_____| |_____/ |______ |_____| |     \      |_____] |     | |     | |              |    |______ |______    |
-   |    |     | |    \_ |______ |     | |_____/      |       |_____| |_____| |_____         |    |______ ______|    |
-EOF
+logo() {
+    echo -e "${Green}"
+    echo -e "████████╗██████╗ ████████╗\r"
+    echo -e "╚══██╔══╝██╔══██╗╚══██╔══╝\r"
+    echo -e "   ██║   ██████╔╝   ██║   \r"
+    echo -e "   ██║   ██╔═══╝    ██║   \r"
+    echo -e "   ██║   ██║        ██║   \r"
+    echo -e "   ╚═╝   ╚═╝        ╚═╝   \r"
+}
+
+set_args() {
+    case $case_type in
+        1) range=15 workers=1;;
+        2) range=1 workers=15;;
+        3) range=5 workers=15;;
+        *) exit0;;
+    esac
+    echo -e "${Reset}"
+    echo -e "             ::: TEST CASE "$1":::\r\n"
+    echo -e "         url : $url"
+    echo -e "     request : $range"
+    echo -e "   parallels : $workers\r\n"
+}
 
 curl_process() {
     echo -e "------------------ worker $1 ---------------------"
+    # seq 1 $range | xargs -I -P1 curl -s -w '\n' -X GET $url
     for ((i=1; i <= $range; i++)); do
-        OUTPUT=$(curl -s -w '\n' -X GET $url) # seq 1 $range | xargs -I -P1 curl -w '\n' -X GET $url
+        OUTPUT=$(curl -s -w '\n' -X GET $url)
         if [ "$OUTPUT" == "server: ok" ]; then
             echo [req::$i] "$OUTPUT"
         fi
@@ -50,37 +72,19 @@ worker_process() {
         curl_process $i > ./logs/log_worker${i}.txt &
     done
     wait
-
     for ((i=1; i <= $workers; i++)); do
         cat ./logs/log_worker${i}.txt &
     done
     wait
-}
-
-getParams() {
-    case "$1" in
-        1) range=15 workers=1;;
-        2) range=1 workers=15;;
-        3) range=5 workers=15;;
-        *) exit0;;
-    esac
-
-    echo -e "\r\n"
-    echo -e "=================================================="
-    echo -e "             ::: TEST CASE "$1" :::\r\n"
-    echo -e "         url : $url"
-    echo -e "     request : $range"
-    echo -e "   parallels : $workers\r\n"
-}
-
-init() {
-    case_type=$1
-    getParams $case_type
-    worker_process
     echo -e "-------------------------------------------------\r\n"
     echo -e "All background process are done\r\n"
 }
 
-init $3
+init() {
+    logo
+    set_args
+    worker_process
+}
 
+init
 exit 0
