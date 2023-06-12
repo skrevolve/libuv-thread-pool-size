@@ -59,7 +59,8 @@ process.env.UV_THREADPOOL_SIZE=64;
 ## 얼마나 높게 설정해야 할까?
 
 설정하는 값은 경우에 따라 다릅니다</br>
-cpu 코어 수로 예시로한 자료들이 많은데 libuv 측에서는 상관이 없다고 합니다 ([Change default thread pool size from fixed 4 to number of logical cores #1578](https://github.com/joyent/libuv/issues/1578))
+cpu 코어 수로 예시로한 자료들이 많은데 libuv 측에서는 상관이 없다고 합니다</br>
+관련 링크: [Change default thread pool size from fixed 4 to number of logical cores #1578](https://github.com/joyent/libuv/issues/1578)
 
 - 스레드 풀 크기는 최대 동시 I/O 작업의 정확한 양입니다
 - 너무 높게 설정하면 너무 낮게 설정하는 것보다 처리량에 미치는 영향이 적습니다
