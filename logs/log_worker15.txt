@@ -1,6 +1,0 @@
------------------- worker 15 ---------------------
-[req::1] server: ok
-[req::2] server: ok
-[req::3] server: ok
-[req::4] server: ok
-[req::5] server: ok
