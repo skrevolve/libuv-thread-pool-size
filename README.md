@@ -11,14 +11,14 @@ libuv는 비동기 I/O를 위한 다중 플랫폼 라이브러리입니다
 - [libuv github](https://github.com/libuv/libuv)
 - [libuv docs](https://docs.libuv.org/en/v1.x/threadpool.html)
 
-## 반드시 알아야 할 사항
+## Must Knows
 
 - Node.js의 I/O 방법 중 일부는 libuv에 의존합니다.</br>
   가능한 경우 Node.js는 이미 비동기/비차단 API를 사용합니다.</br>
   다른 경우 libuv는 스레드 풀을 사용하여 동기화/차단 I/O를 비동기/비차단으로 전환합니다</br>
 - libuv의 스레드 풀 크기는 기본적으로 4 입니다
 
-## 무엇이 문제일까
+## What’s the Problem?
 
 libuv의 기본 스레드 풀 크기는 4입니다.</br>
 libv에 의존하는 4개 이상의 동시 I/O작업을 수행하면 각각의 추가 작업이 대기열에서 대기해야 하므로 libuv의 작은 스레드 풀 크기가 병목 현상을 발생시킵니다.</br>
@@ -29,11 +29,14 @@ libv에 의존하는 4개 이상의 동시 I/O작업을 수행하면 각각의 �
 - DNS 확인
 - ub_queue_work를 호출하는 Lib 및 사용자 코드
 
-## 해결 방법
+## Solving It
 
 Node.js 를 시작하기 전에 I/O호출을 수행하기 전에 UV_THREADPOOL_SIZE 변수 크기를 늘려 변경 해야 합니다.</br>
 libuv는 스레드 풀에 의존하는 I/O 메서드를 처음 호출할 때 스레드 풀을 인스턴스화 합니다.</br>
 일단 인스턴스화되면 스레드 풀 크기(UV_THREADPOOL_SIZE)에 대한 변경 사항은 적용되지 않습니다.</br>
+
+## Examples
+
 Node.js를 시작하기 전에 UV_THREADPOOL_SIZE를 변경하는 것이 좋습니다.</br>
 Node.js를 시작하기 전에 환경 변수를 설정하면 의도가 더 명확해지고 무언가 잘못된 가능성이 줄어듭니다.(포함된 라이브러리가 부작용으로 I/O를 호출함)</br>
 
@@ -56,7 +59,7 @@ SET UV_THREADPOOL_SIZE=64 && node ./out/main.js
 process.env.UV_THREADPOOL_SIZE=64
 ```
 
-## 얼마나 높게 설정해야 할까?
+## How High Should I Set It?
 
 설정하는 값은 경우에 따라 다릅니다.</br>
 cpu 코어 수로 예시로한 자료들이 많은데 libuv 측에서는 상관이 없다고 합니다.</br>
@@ -69,7 +72,7 @@ cpu 코어 수로 예시로한 자료들이 많은데 libuv 측에서는 상관�
 - 최대값(1.30.0 이후)은 1024 입니다
 - CPU 코어 수로 설정하는 것은 좋은 기준이 아닙니다. 이는 CPU 집약적인 작업이 아닌 I/O 작업입니다
 
-### 다음을 사용하여 Linux에서 사용 중인 스레드를 계산할 수 있습니다
+### You can count threads in Linux
 
 ```sh
 ps -Lef | grep "\<node\>" | wc -l
@@ -104,7 +107,7 @@ npm run start:fork
 npm run start:cluster
 ```
 
-## Running Test
+## Running Test By shell
 
 ```sh
 # if you need change chown
