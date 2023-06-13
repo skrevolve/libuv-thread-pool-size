@@ -14,9 +14,6 @@ libuv는 비동기 I/O를 위한 다중 플랫폼 라이브러리입니다
 - [libuv github](https://github.com/libuv/libuv)
 - [libuv docs](https://docs.libuv.org/en/v1.x/threadpool.html)
 
-![image](https://github.com/skrevolve/libuv-thread-pool-size/assets/41939976/10dc5dd4-cde3-47af-b764-43375bc93f5d)</br>
-libuv 구성도
-
 ## Must Knows
 
 - Node.js의 I/O 방법 중 일부는 libuv에 의존합니다.</br>
@@ -28,6 +25,8 @@ libuv 구성도
 
 libuv의 기본 스레드 풀 크기는 4입니다.</br>
 libv에 의존하는 4개 이상의 동시 I/O작업을 수행하면 각각의 추가 작업이 대기열에서 대기해야 하므로 libuv의 작은 스레드 풀 크기가 병목 현상을 발생시킵니다.</br>
+
+![image](https://github.com/skrevolve/libuv-thread-pool-size/assets/41939976/10dc5dd4-cde3-47af-b764-43375bc93f5d)</br>
 
 다음은 libuv의 thread pool을 사용하는 일부 I/O 작업입니다.
 
