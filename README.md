@@ -1,7 +1,6 @@
-# libuv-thread-pool-size test
+# libuv UV_THREADPOOL_SIZE test
 
 ![image](https://github.com/skrevolve/libuv-thread-pool-size/assets/41939976/08647e01-0b8f-482f-844f-ed9ff2f4e324)</br>
-Node.js 구성도
 
 Nodejs libuv의 스레드 풀 크기로 인해 애플리케이션에 병목 현상이 발생하는 방법과 이를 수정하는 방법입니다.</br>
 **libuv에 존재하는 I/O가 많은 애플리케이션의 경우 libuv 스레드 풀 크기는 심각한 병목 현상이 될 수 있으며 총 처리량을 늘리는데 가장 큰 영향을 미치는 요인중 하나가 될 수 있습니다.**
