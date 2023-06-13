@@ -1,11 +1,16 @@
 {
     "scripts": {
         "build": "tsc -p .",
+
+        "start:dev": "UV_THREADPOOL_SIZE=4 node ./out/main.js",
         "start:fork": "UV_THREADPOOL_SIZE=4 pm2 start ./out/main.js --name libuv-threadpool-node",
         "start:cluster": "UV_THREADPOOL_SIZE=4 pm2 start ./ecosystem.config.js --only libuv-threadpool-node",
-        "start:dev": "tsc -p . && UV_THREADPOOL_SIZE=64 node ./out/main.js --watch",
-        "reload:fork": "UV_THREADPOOL_SIZE=4 pm2 reload libuv-threadpool-node",
-        "reload:cluster": "UV_THREADPOOL_SIZE=4 pm2 reload ./ecosystem.config.js --only libuv-threadpool-node",
+
+        "reload:fork": "pm2 delete libuv-threadpool-node && UV_THREADPOOL_SIZE=8 pm2 start ./out/main.js --name libuv-threadpool-node",
+        "reload:cluster": "UV_THREADPOOL_SIZE=8 pm2 start ./ecosystem.config.js --only libuv-threadpool-node",
+
+        "start": "pm2 start node ./out/main.js",
+        "reload": "pm2 reload libuv-threadpool-node",
         "stop": "pm2 stop libuv-threadpool-node",
         "delete": "pm2 delete libuv-threadpool-node"
     },

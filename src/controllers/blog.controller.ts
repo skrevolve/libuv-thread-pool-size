@@ -15,18 +15,18 @@ export class BlogController extends ControllerAbstract {
 
             const start = Date.now()
 
-            for (let i=0; i<10; i++) {
-                crypto.pbkdf2('a', 'b', 100000, 512, 'sha512', () => {
-                    const time = Date.now() - start
-                    logger.info(time)
+            for (let i=0; i<2; i++) {
+                crypto.pbkdf2('a', 'b', 100000, 512, 'sha512', (err) => {
+                    if (err) throw err;
+                    logger.info(`pbkdf2 done: ${Date.now() - start}`)
                 })
             }
 
-            return res.status(200).send("server: ok")
+            return res.status(200).send("ok")
 
         } catch(e) {
 
-            return res.status(500).send()
+            return res.status(500).send('err')
         }
     }
 }

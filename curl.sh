@@ -47,10 +47,10 @@ set_args() {
         1) range=15 workers=1;;
         2) range=1 workers=15;;
         3) range=5 workers=15;;
-        *) exit0;;
+        *) exit 0;;
     esac
     echo -e "${Reset}"
-    echo -e "             ::: TEST CASE "$1":::\r\n"
+    echo -e "             ::: TEST CASE $case_type:::\r\n"
     echo -e "         url : $url"
     echo -e "     request : $range"
     echo -e "   parallels : $workers\r\n"
@@ -61,7 +61,7 @@ curl_process() {
     # seq 1 $range | xargs -I -P1 curl -s -w '\n' -X GET $url
     for ((i=1; i <= $range; i++)); do
         OUTPUT=$(curl -s -w '\n' -X GET $url)
-        if [ "$OUTPUT" == "server: ok" ]; then
+        if [ "$OUTPUT" == "ok" ]; then
             echo [req::$i] "$OUTPUT"
         fi
     done
@@ -69,11 +69,11 @@ curl_process() {
 
 worker_process() {
     for ((i=1; i <= $workers; i++)); do
-        curl_process $i > ./logs/log_worker${i}.txt &
+        curl_process $i > ./logs/worker${i}.log &
     done
     wait
     for ((i=1; i <= $workers; i++)); do
-        cat ./logs/log_worker${i}.txt &
+        cat ./logs/worker${i}.log &
     done
     wait
     echo -e "-------------------------------------------------\r\n"
