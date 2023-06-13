@@ -34,12 +34,12 @@ Reset="\033[0m"
 
 logo() {
     echo -e "${Green}"
-    echo -e "████████╗██████╗ ████████╗\r"
-    echo -e "╚══██╔══╝██╔══██╗╚══██╔══╝\r"
-    echo -e "   ██║   ██████╔╝   ██║   \r"
-    echo -e "   ██║   ██╔═══╝    ██║   \r"
-    echo -e "   ██║   ██║        ██║   \r"
-    echo -e "   ╚═╝   ╚═╝        ╚═╝   \r"
+    echo -e "           ████████╗██████╗ ████████╗\r"
+    echo -e "           ╚══██╔══╝██╔══██╗╚══██╔══╝\r"
+    echo -e "              ██║   ██████╔╝   ██║   \r"
+    echo -e "              ██║   ██╔═══╝    ██║   \r"
+    echo -e "              ██║   ██║        ██║   \r"
+    echo -e "              ╚═╝   ╚═╝        ╚═╝   \r"
 }
 
 set_args() {
@@ -49,10 +49,10 @@ set_args() {
         3) range=5 workers=15;;
         *) exit 0;;
     esac
-    echo -e "${Reset}"
+    echo -e "${Reset}\r"
     echo -e "             ::: TEST CASE $case_type:::\r\n"
-    echo -e "         url : $url"
-    echo -e "     request : $range"
+    echo -e "         url : $url\r"
+    echo -e "     request : $range\r"
     echo -e "   parallels : $workers\r\n"
 }
 

@@ -7,7 +7,7 @@
         "start:cluster": "UV_THREADPOOL_SIZE=4 pm2 start ./ecosystem.config.js --only libuv-threadpool-node",
 
         "reload:fork": "pm2 delete libuv-threadpool-node && UV_THREADPOOL_SIZE=8 pm2 start ./out/main.js --name libuv-threadpool-node",
-        "reload:cluster": "UV_THREADPOOL_SIZE=8 pm2 start ./ecosystem.config.js --only libuv-threadpool-node",
+        "reload:cluster": "pm2 delete libuv-threadpool-node && UV_THREADPOOL_SIZE=1024 pm2 start ./ecosystem.config.js --only libuv-threadpool-node",
 
         "start": "pm2 start node ./out/main.js",
         "reload": "pm2 reload libuv-threadpool-node",
