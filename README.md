@@ -118,14 +118,10 @@ npm run start:cluster
 ## Running Test By shell
 
 ```sh
-# if you need change chown
-chmod +x curl.sh
-# run test case 1
-./curl.sh -c 1
-# run test case 2
-./curl.sh -c 2
-# run test case 3
-./curl.sh -c 3
+chmod +x curl.sh #if you need change chown
+./curl.sh -c 1 #run test case 1
+./curl.sh -c 2 #run test case 1
+./curl.sh -c 3 #run test case 1
 ```
 
 ## Running test
