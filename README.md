@@ -115,7 +115,7 @@ npm run start:fork
 npm run start:cluster
 ```
 
-## Running Test By shell
+## Running test in CLI
 
 ```sh
 chmod +x curl.sh #if you need change chown
@@ -124,7 +124,7 @@ chmod +x curl.sh #if you need change chown
 ./curl.sh -c 3 #run test case 1
 ```
 
-## Running test
+## 💥Running test
 
 ### case 1 (pm2 fork mode)
 
